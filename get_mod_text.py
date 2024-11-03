@@ -2,13 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-mod_text_l = {}
+mod_text_l = {
+    "name1": '',
+    "name2": '',
+    "img": '',
+    "way": {},
+}
 def save_img(url):
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0',
     }
     img = requests.get(headers=headers, url=url).content
-    with open('./mod_text_img/1.jpg', 'wb') as f:
+    with open('get/mod_text_img/1.jpg', 'wb') as f:
         f.write(img)
         f.close()
 
@@ -37,7 +42,7 @@ def get_argument(html):  #获取类型,版本,运行,服务器客户端支持,
     if tilite_mod.find('h4') == None:
         print('副标为空')
     else:
-        t_E = tilite_mod.find('h4')
+        t_E =str(tilite_mod.find('h4').text.encode('utf-8'), 'utf-8')
     t_C = str(tilite_mod.find('h3').text.encode('utf-8'),'utf-8')
     mod_text_l.update({
         'name1':t_C,
@@ -53,10 +58,10 @@ def get_argument(html):  #获取类型,版本,运行,服务器客户端支持,
     for u in ul.find_all('li'):
         url_way = if_is_url(str(u.find('a')['href']))
         name_way = u.find('span')['title']
-        mod_text_l.update({  # 保存到列表
-            "way{}".format(n):{
-                 'url':url_way,
-                 'name':name_way
+        mod_text_l['way'].update({  # 保存到列表
+            "way{}".format(n): {
+                'url': url_way,
+                'name': name_way
             }
         })
         n+=1
@@ -75,4 +80,8 @@ def get_mod_text(url_1):
     res = requests.get(url=url,headers=headers).text   #获取网页
     soup = BeautifulSoup(res, 'html.parser')   #转变格式
     get_argument(soup)    #将转变好的传给获取信息函数
-get_mod_text('https://www.mcmod.cn/class/13333.html')
+
+
+
+
+    return mod_text_l
