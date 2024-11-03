@@ -1,5 +1,4 @@
-import os
-from tkinter import ttk, Label
+from tkinter import ttk
 from  PIL import Image,ImageTk
 import tkinter as tk
 
@@ -7,8 +6,8 @@ from ttkbootstrap.constants import *
 
 import ttkbootstrap as tttk
 
-from get.gethtml import get_html
-from get.get_img import img_url_get
+from gethtml import get_html
+from get_img import img_url_get
 from gui_mod_text import op_top_win
 
 
