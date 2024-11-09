@@ -2,9 +2,13 @@ import os
 from tkinter import ttk, Label
 import tkinter as tk
 from  PIL import Image,ImageTk
+import webbrowser
 from turtledemo.penrose import start
-
-
+def open_url(index):  #打开链接
+    print(index)
+    url_1 = str(index['url'])
+    name_url_ = str(index['name'])
+    webbrowser.open_new(url_1)
 from get_mod_text import get_mod_text
 def op_top_win():
     url = open('get/url_d.text', "r", encoding='utf-8').read()
@@ -50,10 +54,15 @@ def op_top_win():
     url_way.grid(row=0)
     for i in range(len(modtext['way'])) :
         print(i)
+        id_list ={
+            "name":modtext["way"]["way{}".format(i)]["name"],
+            "url":modtext["way"]["way{}".format(i)]["url"]
+        }
         exec(f'way_Fr_{i} = ttk.LabelFrame(way_Fr,borderwidth=2)')
         exec(f'way_Fr_{i}.grid(row=1,column={i})')
         exec(f'way{i}=tk.Label(way_Fr_{i},text=modtext["way"]["way{i}"]["name"],width=10) ')
         exec(f'way{i}.grid(row=0)')
+        exec(f'way{i}.bind("<Button-1>",lambda event, index=id_list,:open_url(index))')
     mod_text_w.mainloop()
 
 
